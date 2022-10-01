@@ -56,6 +56,10 @@ if(BGFX_CONFIG_RENDERER_WEBGPU)
     endif()
 endif()
 
+if(EMSCRIPTEN)
+	target_link_options(bgfx PUBLIC "-sMAX_WEBGL_VERSION=2")
+endif()
+
 if( NOT ${BGFX_OPENGL_VERSION} STREQUAL "" )
 	target_compile_definitions( bgfx PRIVATE BGFX_CONFIG_RENDERER_OPENGL_MIN_VERSION=${BGFX_OPENGL_VERSION} )
 endif()
@@ -72,7 +76,7 @@ endif()
 # Add debug config required in bx headers since bx is private
 target_compile_definitions(bgfx
        PUBLIC
-               "BX_CONFIG_DEBUG=$<CONFIG:Debug>"
+               "BX_CONFIG_DEBUG=$<IF:$<CONFIG:Debug>,1,$<BOOL:${BX_CONFIG_DEBUG}>>"
                "BGFX_CONFIG_MULTITHREADED=$<BOOL:${BGFX_CONFIG_MULTITHREADED}>"
 )
 
