@@ -26,6 +26,9 @@ if (MSVC AND (MSVC_VERSION GREATER_EQUAL 1914))
 endif()
 
 option( BGFX_BUILD_TOOLS                "Build bgfx tools."                             ON  )
+option( BGFX_BUILD_TOOLS_SHADER         "Build bgfx shader tools."                      ON  )
+option( BGFX_BUILD_TOOLS_GEOMETRY       "Build bgfx geometry tools."                    ON  )
+option( BGFX_BUILD_TOOLS_TEXTURE        "Build bgfx texture tools."                     ON  )
 option( BGFX_BUILD_EXAMPLES             "Build bgfx examples."                          ON  )
 option( BGFX_INSTALL                    "Create installation target."                   ON  )
 option( BGFX_INSTALL_EXAMPLES           "Install examples and their runtimes."          OFF )
@@ -39,6 +42,20 @@ option( BX_CONFIG_DEBUG                 "Log debug messages (default: on in debu
 set( BGFX_OPENGL_VERSION   ""       CACHE STRING "Specify minimum opengl version" )
 set( BGFX_OPENGLES_VERSION ""       CACHE STRING "Specify minimum OpenGL ES version" )
 set( BGFX_LIBRARY_TYPE     "STATIC" CACHE STRING "Linking type for library" )
+
+set( BGFX_CONFIG_DEFAULT_MAX_ENCODERS             "" CACHE STRING "Specify default maximum encoder count (multithreaded only)" )
+set( BGFX_CONFIG_MAX_DRAW_CALLS                   "" CACHE STRING "Specify maximum draw calls" )
+set( BGFX_CONFIG_MAX_VIEWS                        "" CACHE STRING "Specify maximum view count (should be a power of two)" )
+set( BGFX_CONFIG_MAX_FRAME_BUFFERS                "" CACHE STRING "Specify maximum frame buffers" )
+set( BGFX_CONFIG_MAX_VERTEX_LAYOUTS               "" CACHE STRING "Specify maximum vertex layouts" )
+set( BGFX_CONFIG_MAX_VERTEX_BUFFERS               "" CACHE STRING "Specify maximum vertex buffer count" )
+set( BGFX_CONFIG_MAX_DYNAMIC_VERTEX_BUFFERS       "" CACHE STRING "Specify maximum dynamic vertex buffer count" )
+set( BGFX_CONFIG_MAX_INDEX_BUFFERS                "" CACHE STRING "Specify maximum index buffer count" )
+set( BGFX_CONFIG_MAX_DYNAMIC_INDEX_BUFFERS        "" CACHE STRING "Specify maximum dynamic index buffer count" )
+set( BGFX_CONFIG_MAX_TEXTURES                     "" CACHE STRING "Specify maximum texture count" )
+set( BGFX_CONFIG_MAX_TEXTURE_SAMPLERS             "" CACHE STRING "Specify maximum texture samplers" )
+set( BGFX_CONFIG_MAX_SHADERS                      "" CACHE STRING "Specify shader count" )
+set( BGFX_CONFIG_SORT_KEY_NUM_BITS_PROGRAM        "" CACHE STRING "Specify maximum program count as 2^(program bits)" )
 
 set_property( CACHE BGFX_LIBRARY_TYPE PROPERTY STRINGS STATIC SHARED )
 
@@ -131,7 +148,7 @@ if( BGFX_INSTALL )
 			 INCLUDES DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
 	)
 	if( NOT BGFX_LIBRARY_TYPE MATCHES "SHARED" )
-		install( TARGETS bimg bx astc-codec astc edtaa3 etc1 etc2 iqa squish nvtt pvrtc tinyexr
+		install( TARGETS bimg bx astc-encoder edtaa3 etc1 etc2 iqa squish nvtt pvrtc tinyexr
 				 EXPORT "${TARGETS_EXPORT_NAME}"
 				 LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
 				 ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
